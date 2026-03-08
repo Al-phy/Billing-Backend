@@ -9,7 +9,10 @@ require('dotenv').config();
 
 const app = express();
 app.use(compression());
-app.use(cors());
+app.use(cors({
+  origin: ['https://your-frontend.vercel.app', 'http://localhost:3000', 'http://localhost:5173'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Catch unhandled rejections
@@ -228,9 +231,21 @@ const start = async () => {
             ]);
         }
 
-        app.listen(process.env.PORT, () => {
-            console.log(`Server running on port ${process.env.PORT}`);
-        });
+        const PORT = process.env.PORT || 10000;   // ← Updated for Render
+
+// Keep everything else same
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
+// Health check route for Render + testing
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    message: 'Billing Backend is healthy',
+    time: new Date().toISOString(),
+    port: process.env.PORT || 10000
+  });
+});
     } catch (error) {
         console.error('Failed to start server:', error);
     }
