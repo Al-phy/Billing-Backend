@@ -10,7 +10,7 @@ require('dotenv').config();
 const app = express();
 app.use(compression());
 app.use(cors({
-  origin: ['https://your-frontend.vercel.app', 'http://localhost:3000', 'http://localhost:5173'],
+  origin: ['billing-frontend-seven.vercel.app', 'http://localhost:3000', 'http://localhost:5173'],
   credentials: true
 }));
 app.use(express.json());
