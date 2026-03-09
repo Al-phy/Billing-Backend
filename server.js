@@ -22,7 +22,7 @@ app.use(cors({
 }));
 
 // IMPORTANT: Explicitly handle preflight OPTIONS requests (this is the missing piece on Render)
-app.options('*', cors());
+app.options('/*splat', cors());
 app.use(express.json());
 
 // Catch unhandled rejections
