@@ -224,38 +224,16 @@ const start = async () => {
         await sequelize.sync();
         console.log('Database synced.');
 
-        // Seed admin if not exists
         const adminCount = await Admin.count();
         if (adminCount === 0) {
             await Admin.create({ username: 'admin', password: 'admin123' });
             console.log('Default admin created: admin / admin123');
         }
 
-        // Seed initial services if empty
-        const serviceCount = await Service.count();
-        if (serviceCount === 0) {
-            await Service.bulkCreate([
-                { name: "Consultation Fee", rate: 500 },
-                { name: "Shirodhara (45 mins)", rate: 1500 },
-                { name: "Abhyanga Massage", rate: 1200 }
-            ]);
-        }
-
-        const PORT = process.env.PORT || 10000;   // ← Updated for Render
-
-// Keep everything else same
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
-// Health check route for Render + testing
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    message: 'Billing Backend is healthy',
-    time: new Date().toISOString(),
-    port: process.env.PORT || 10000
-  });
-});
+        const PORT = process.env.PORT || 10000;
+        app.listen(PORT, '0.0.0.0', () => {
+            console.log(`✅ Server running on port ${PORT}`);
+        });
     } catch (error) {
         console.error('Failed to start server:', error);
     }
