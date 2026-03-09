@@ -11,7 +11,7 @@ const app = express();
 app.use(compression());
 app.use(cors({
   origin: [
-    'billing-frontend-seven.vercel.app',     // ← the one you want to use
+    'https://billing-frontend-seven.vercel.app',     // ← the one you want to use
     'http://localhost:3000',
     'http://localhost:5173',
     'http://localhost:5000'
