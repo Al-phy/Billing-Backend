@@ -10,9 +10,19 @@ require('dotenv').config();
 const app = express();
 app.use(compression());
 app.use(cors({
-  origin: ['billing-frontend-seven.vercel.app', 'http://localhost:3000', 'http://localhost:5173'],
-  credentials: true
+  origin: [
+    'https://billing-frontend.vercel.app',     // ← the one you want to use
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://localhost:5000'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+// IMPORTANT: Explicitly handle preflight OPTIONS requests (this is the missing piece on Render)
+app.options('*', cors());
 app.use(express.json());
 
 // Catch unhandled rejections
